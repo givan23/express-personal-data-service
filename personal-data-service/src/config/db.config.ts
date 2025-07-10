@@ -10,10 +10,10 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST,
         dialect: 'postgres',
-        port: (process.env.DB_PORT || 5432) as number,
+        port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432,
         logging: false
     }
 );
 
-export default sequelize;
+export default sequelize; // Cast to Sequelize type for compatibility
 

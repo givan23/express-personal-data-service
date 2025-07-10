@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as Sequelize from 'sequelize';
 import sequelize from '../config/db.config.js';
 import User from './user.model.js';

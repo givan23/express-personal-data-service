@@ -15,7 +15,7 @@ export default (sequelize: ISequelize, DataTypes: IDataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        password_hash: {
+        passwordHash: {
             type: DataTypes.STRING,
             field: 'password_hash',
             allowNull: false

@@ -1,63 +1,75 @@
+import {Request, Response, NextFunction} from 'express';
 import db from '../models/index.js';
+import {ICreateUserDto, IUpdateUserDto, IUserDto} from "../dto/user.dto";
 
 const User = db.User;
 
-const createUser = async (req, res) => {
+const createUser = async (req: Request<ICreateUserDto>, res: Response<IUserDto>, next: NextFunction) => {
     try {
         const user = await User.create(req.body);
         res.json(user);
-    } catch (err) {
-        res.status(500).json({message: err.message});
+    } catch (err: any) {
+        next(err);
     }
 };
 
-const getUsers = async (req, res) => {
+const getUsers = async (req: Request, res: Response<IUserDto[]>, next: NextFunction) => {
     try {
         const users = await User.findAll();
         res.json(users);
-    } catch (err) {
-        res.status(500).json({message: err.message});
+    } catch (err: any) {
+        next(err);
     }
 };
 
-const getUserById = async (req, res) => {
+const getUserById = async (req: Request, res: Response<IUserDto>, next: NextFunction) => {
     try {
         const user = await User.findByPk(req.params.id);
         if (user) {
             res.json(user);
         } else {
-            res.status(404).json({message: 'User not found'});
+            const err = new Error('User not found');
+            (err as any).status = 404;
+            next(err);
         }
-    } catch (err) {
-        res.status(500).json({message: err.message});
+    } catch (err: any) {
+        next(err);
     }
 };
 
-const updateUser = async (req, res) => {
+const updateUser = async (req: Request<{
+    id: string
+}, {}, IUpdateUserDto>, res: Response<IUserDto>, next: NextFunction) => {
     try {
         const user = await User.findByPk(req.params.id);
         if (user) {
             await user.update(req.body);
             res.json(user);
         } else {
-            res.status(404).json({message: 'User not found'});
+            const err = new Error('User not found');
+            (err as any).status = 404;
+            next(err);
         }
-    } catch (err) {
-        res.status(500).json({message: err.message});
+    } catch (err: any) {
+        next(err);
     }
 };
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req: Request<{
+    id: string
+}, {}, {}>, res: Response<Record<string, string>>, next: NextFunction) => {
     try {
         const user = await User.findByPk(req.params.id);
         if (user) {
             await user.destroy();
             res.json({message: 'User deleted successfully'});
         } else {
-            res.status(404).json({message: 'User not found'});
+            const err = new Error('User not found');
+            (err as any).status = 404;
+            next(err);
         }
-    } catch (err) {
-        res.status(500).json({message: err.message});
+    } catch (err: any) {
+        next(err);
     }
 };
 
