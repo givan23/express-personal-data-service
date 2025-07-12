@@ -23,15 +23,15 @@ export default (sequelize: ISequelize, DataTypes: IDataTypes) => {
         createdAt: {
             type: DataTypes.DATE,
             field: 'created_at',
-            allowNull: true,
+            allowNull: false,
         },
         updatedAt: {
             type: DataTypes.DATE,
             field: 'updated_at',
-            allowNull: true
+            allowNull: false
         },
     }, {
         tableName: 'users',
-        timestamps: false
+        timestamps: true
     });
 };
