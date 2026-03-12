@@ -1,11 +1,11 @@
 // @ts-nocheck
 import * as Sequelize from 'sequelize';
-import sequelize from '../config/db.config.js';
-import User from './user.model.js';
-import Address from './address.model.js';
-import Preference from './preference.model.js';
-import profile from './profile.model.js';
-import contact from './contact.model.js';
+import sequelize from '../config/db.config';
+import User from './user.model';
+import Address from './address.model';
+import Preference from './preference.model';
+import profile from './profile.model';
+import contact from './contact.model';
 
 interface IDb {
     Sequelize: typeof Sequelize;

@@ -1,4 +1,4 @@
-import db from '../models/index.js';
+import db from '../models/index';
 import {ICreateUserDto, IUpdateUserDto, IUserDto} from '../dto/user.dto';
 
 const User = db.User;

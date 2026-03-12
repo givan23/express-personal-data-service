@@ -1,5 +1,5 @@
-import * as userRepository from '../repositories/user.repository.js';
-import {ICreateUserDto, IUpdateUserDto, IUserDto} from '../dto/user.dto.js';
+import * as userRepository from '../repositories/user.repository';
+import {ICreateUserDto, IUpdateUserDto, IUserDto} from '../dto/user.dto';
 
 const getUsers = async (): Promise<IUserDto[]> => {
     return await userRepository.getAll();
@@ -16,6 +16,14 @@ const getUserById = async (id: string): Promise<IUserDto> => {
 }
 
 const createUser = async (data: ICreateUserDto): Promise<IUserDto> => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    console.log('Email ricevuta:', data.email);
+    console.log('Regex test:', emailRegex.test(data.email));
+    if (!emailRegex.test(data.email)) {
+        const error = new Error('Invalid email format');
+        (error as any).status = 400;
+        throw error;
+    }
     try {
         return await userRepository.create(data);
     } catch (err: any) {

@@ -1,7 +1,7 @@
 import express from 'express';
-import db from './models/index.js';
-import userRoutes from './routes/user.routes.js';
-import errorHandler from './middleware/error.middleware.js';
+import db from './models/index';
+import userRoutes from './routes/user.routes';
+import errorHandler from './middleware/error.middleware';
 
 const app = express();
 
