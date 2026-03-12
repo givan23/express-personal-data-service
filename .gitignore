@@ -66,7 +66,7 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
-personal-data-service/.env
+backend/nourish-api/.env
 .env.*
 !.env.example
 
