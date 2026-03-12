@@ -1,4 +1,4 @@
-import {ISequelize, IDataTypes} from '../defines/models.types';
+import {ISequelize, IDataTypes} from '../../types/sequelize.types';
 
 export default (sequelize: ISequelize, DataTypes: IDataTypes) => {
     return sequelize.define('Profile', {
@@ -14,26 +14,28 @@ export default (sequelize: ISequelize, DataTypes: IDataTypes) => {
         },
         firstName: {
             type: DataTypes.STRING,
-            field: 'first_name',
+            field: 'display_name',
             allowNull: true
         },
-        lastName: {
+        cookingTimePreference: {
             type: DataTypes.STRING,
-            field: 'last_name',
+            field: 'cooking_time_preference',
             allowNull: true
         },
-        birthDate: {
-            type: DataTypes.DATE,
-            field: 'birth_date',
+        householdSize: {
+            type: DataTypes.INTEGER,
+            field: 'household_size',
             allowNull: true
         },
-        phoneNumber: {
+        budgetStyle: {
             type: DataTypes.STRING,
-            field: 'phone_number',
+            field: 'budget_style',
             allowNull: true
         }
     }, {
-        tableName: 'profiles',
-        timestamps: false,
+        tableName: 'user_profiles',
+        timestamps: true,        // ✅ Abilita createdAt / updatedAt automatici
+        createdAt: 'created_at', // ✅ Mappa il nome corretto della colonna
+        updatedAt: 'updated_at', // ✅ Mappa il nome corretto della colonna
     });
 };

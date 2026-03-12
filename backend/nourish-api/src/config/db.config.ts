@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const sequelize = new Sequelize(
-    process.env.DB_NAME as string || 'personal-data-db',
+    process.env.DB_NAME as string || 'personal-data-sequelizeBootstrap',
     (process.env.DB_USER as string || 'postgres'),
     (process.env.DB_PASS as string || 'Ivan1234'),
     {

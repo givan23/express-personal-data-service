@@ -1,4 +1,4 @@
-import {ISequelize, IDataTypes} from '../defines/models.types';
+import {ISequelize, IDataTypes} from '../../types/sequelize.types';
 
 export default (sequelize: ISequelize, DataTypes: IDataTypes) => {
     return sequelize.define(
@@ -8,10 +8,6 @@ export default (sequelize: ISequelize, DataTypes: IDataTypes) => {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
-            },
-            username: {
-                type: DataTypes.STRING,
-                allowNull: false,
             },
             email: {
                 type: DataTypes.STRING,

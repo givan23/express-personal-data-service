@@ -1,6 +1,5 @@
 interface IUserDto {
     id: number;
-    username: string;
     email: string;
     passwordHash: string;
     createdAt?: Date;
@@ -8,13 +7,11 @@ interface IUserDto {
 }
 
 interface ICreateUserDto {
-    username: string;
     email: string;
     passwordHash: string;
 }
 
 interface IUpdateUserDto {
-    username?: string;
     email?: string;
     passwordHash?: string;
 }

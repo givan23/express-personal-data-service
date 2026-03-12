@@ -1,15 +1,15 @@
 import express from 'express';
-import db from './models/index';
-import userRoutes from './routes/user.routes';
+import sequelizeBootstrap from './database/sequelize.bootstrap';
+import userRoutes from './modules/user/user.routes';
 import errorHandler from './middleware/error.middleware';
 
 const app = express();
 
 app.use(express.json());
 app.use('/api/users', userRoutes);
-if (db.sequelize) {
+if (sequelizeBootstrap.sequelize) {
 
-    db.sequelize.sync({alter: true}).then(() => {
+    sequelizeBootstrap.sequelize.sync({alter: true}).then(() => {
         console.log('DB synced');
     });
 } else {

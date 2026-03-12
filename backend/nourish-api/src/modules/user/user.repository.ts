@@ -1,7 +1,7 @@
-import db from '../models/index';
-import {ICreateUserDto, IUpdateUserDto, IUserDto} from '../dto/user.dto';
+import sequelizeBootstrap from '../../database/sequelize.bootstrap';
+import {ICreateUserDto, IUpdateUserDto, IUserDto} from './user.dto';
 
-const User = db.User;
+const User = sequelizeBootstrap.User;
 
 const getAll = async (): Promise<IUserDto[]> => {
     return await User.findAll();

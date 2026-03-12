@@ -1,5 +1,5 @@
-import * as userRepository from '../repositories/user.repository';
-import {ICreateUserDto, IUpdateUserDto, IUserDto} from '../dto/user.dto';
+import * as userRepository from './user.repository';
+import {ICreateUserDto, IUpdateUserDto, IUserDto} from './user.dto';
 
 const getUsers = async (): Promise<IUserDto[]> => {
     return await userRepository.getAll();

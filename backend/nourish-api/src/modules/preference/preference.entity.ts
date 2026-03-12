@@ -1,4 +1,4 @@
-import {ISequelize, IDataTypes} from '../defines/models.types';
+import {ISequelize, IDataTypes} from '../../types/sequelize.types';
 
 export default (sequelize: ISequelize, DataTypes: IDataTypes) => {
     return sequelize.define('Preference', {
@@ -12,18 +12,20 @@ export default (sequelize: ISequelize, DataTypes: IDataTypes) => {
             field: 'user_id',
             allowNull: false
         },
-        preferenceKey: {
+        key: {
             type: DataTypes.STRING,
-            field: 'preference_key',
+            field: 'key',
             allowNull: false
         },
-        preferenceValue: {
+        value: {
             type: DataTypes.STRING,
-            field: 'preference_value',
+            field: 'value',
             allowNull: true
         },
     }, {
         tableName: 'preferences',
-        timestamps: false,
+        timestamps: true,        // ✅ Abilita createdAt / updatedAt automatici
+        createdAt: 'created_at', // ✅ Mappa il nome corretto della colonna
+        updatedAt: 'updated_at', // ✅ Mappa il nome corretto della colonna
     });
 };

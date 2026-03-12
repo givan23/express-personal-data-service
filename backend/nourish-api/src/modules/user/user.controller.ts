@@ -1,6 +1,6 @@
 import {Request, Response, NextFunction} from 'express';
-import * as userService from '../services/user.service';
-import {ICreateUserDto, IUpdateUserDto, IUserDto} from "../dto/user.dto";
+import * as userService from './user.service';
+import {ICreateUserDto, IUpdateUserDto, IUserDto} from "./user.dto";
 
 const getUsers = async (req: Request, res: Response<IUserDto[]>, next: NextFunction) => {
     try {
