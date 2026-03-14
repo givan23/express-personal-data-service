@@ -1,5 +1,12 @@
 import * as userRepository from './user.repository';
-import {ICreateUserDto, IUpdateUserDto, IUserDto, IUserProfileDto} from './user.dto';
+import {
+    ICreateUserDto, ICreateUserPreferenceDto,
+    ICreateUserProfileDto,
+    IUpdateUserDto, IUpdateUserPreferenceDto,
+    IUpdateUserProfileDto,
+    IUserDto, IUserPreferenceDto,
+    IUserProfileDto
+} from './user.dto';
 
 const getUsers = async (): Promise<IUserDto[]> => {
     return await userRepository.getAll();
@@ -53,13 +60,109 @@ const deleteUser = async (id: string): Promise<{ message: string }> => {
         (error as any).status = 404;
         throw error;
     }
-    return { message: 'User deleted successfully' };
+    return {message: 'User deleted successfully'};
 };
+
+const getUserProfilesService = async (userIds: number[]): Promise<IUserProfileDto[]> => {
+    return await userRepository.getUserProfiles(userIds);
+}
+
+const getUserProfileByIdService = async (userId: number): Promise<IUserProfileDto | undefined> => {
+    const userProfile = await userRepository.getUserProfileById(userId);
+    if (!userProfile) {
+        const error = new Error('User profile not found');
+        (error as any).status = 404;
+        throw error;
+    }
+    return userProfile;
+}
+
+const createUserProfileService = async (userId: number, data: Partial<ICreateUserProfileDto>): Promise<IUserProfileDto> => {
+    return await userRepository.createUserProfile(userId, data);
+}
+
+const updateUserProfileService = async (
+    userId: number,
+    data: Partial<IUpdateUserProfileDto>
+): Promise<IUserProfileDto | null> => {
+    const userProfile = await userRepository.updateUserProfile(userId, data);
+    if (!userProfile) {
+        const error = new Error('User profile not found');
+        (error as any).status = 404;
+        throw error;
+    }
+    return userProfile;
+}
+
+const deleteUserProfileService = async (userId: number): Promise<{ message: string }> => {
+    const deleted = await userRepository.deleteUserProfile(userId);
+    if (!deleted) {
+        const error = new Error('User profile not found');
+        (error as any).status = 404;
+        throw error;
+    }
+    return {message: 'User profile deleted successfully'};
+}
+
+const getUserPreferencesService = async (userIds: number[]): Promise<IUserPreferenceDto[]> => {
+    return await userRepository.getUserPreferences(userIds);
+}
+
+const getUserPreferenceByIdService = async (userId: number): Promise<IUserPreferenceDto | undefined> => {
+    const userPreference = await userRepository.getUserPreferenceById(userId);
+    if (!userPreference) {
+        const error = new Error('User preference not found');
+        (error as any).status = 404;
+        throw error;
+    }
+    return userPreference;
+}
+
+const createUserPreferenceService = async (
+    userId: number,
+    data: Partial<ICreateUserPreferenceDto>
+): Promise<IUserPreferenceDto> => {
+    return await userRepository.createUserPreference(userId, data);
+}
+
+const updateUserPreferenceService = async (
+    userId: number,
+    data: Partial<IUpdateUserPreferenceDto>
+): Promise<IUserPreferenceDto | null> => {
+    const userPreference = await userRepository.updateUserPreference(userId, data);
+    if (!userPreference) {
+        const error = new Error('User preference not found');
+        (error as any).status = 404;
+        throw error;
+    }
+    return userPreference;
+}
+
+const deleteUserPreferenceService = async (userId: number): Promise<{ message: string }> => {
+    const deleted = await userRepository.deleteUserPreference(userId);
+    if (!deleted) {
+        const error = new Error('User preference not found');
+        (error as any).status = 404;
+        throw error;
+    }
+    return {message: 'User preference deleted successfully'};
+}
+
 
 export {
     getUsers,
     getUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUserProfilesService,
+    getUserProfileByIdService,
+    createUserProfileService,
+    updateUserProfileService,
+    deleteUserProfileService,
+    getUserPreferencesService,
+    getUserPreferenceByIdService,
+    createUserPreferenceService,
+    updateUserPreferenceService,
+    deleteUserPreferenceService
 }

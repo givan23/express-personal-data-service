@@ -40,12 +40,12 @@ const remove = async (id: string): Promise<boolean> => {
     return deletedCount > 0;
 };
 
-const getUserProfile = async (userId: number): Promise<IUserProfileDto | null> => {
-    return await UserProfile.findOne({where: {userId}});
-};
-
 const getUserProfiles = async (userIds: number[]): Promise<IUserProfileDto[]> => {
     return await UserProfile.findAll({where: {userId: {[Op.in]: userIds}}});
+};
+
+const getUserProfileById = async (userId: number): Promise<IUserProfileDto | null> => {
+    return await UserProfile.findOne({where: {userId}});
 };
 
 const createUserProfile = async (userId: number, data: Partial<ICreateUserProfileDto>): Promise<IUserProfileDto> => {
@@ -66,13 +66,13 @@ const deleteUserProfile = async (userId: number): Promise<boolean> => {
     return deletedCount > 0;
 };
 
-const getUserPreference = async (userId: number): Promise<IUserPreferenceDto | null> => {
-    return await UserPreference.findOne({where: {userId}});
-};
-
 const getUserPreferences = async (userIds: number[]): Promise<IUserPreferenceDto[]> => {
     return await UserPreference.findAll({where: {userId: {[Op.in]: userIds}}});
 }
+
+const getUserPreferenceById = async (userId: number): Promise<IUserPreferenceDto | null> => {
+    return await UserPreference.findOne({where: {userId}});
+};
 
 const createUserPreference = async (
     userId: number,
@@ -102,12 +102,12 @@ export {
     create,
     update,
     remove,
-    getUserProfile,
+    getUserProfileById,
     getUserProfiles,
     createUserProfile,
     updateUserProfile,
     deleteUserProfile,
-    getUserPreference,
+    getUserPreferenceById,
     getUserPreferences,
     createUserPreference,
     updateUserPreference,
