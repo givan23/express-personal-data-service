@@ -1,7 +1,7 @@
 import {ISequelize, IDataTypes} from '../../types/sequelize.types';
 
 export default (sequelize: ISequelize, DataTypes: IDataTypes) => {
-    return sequelize.define('Profile', {
+    return sequelize.define('userPreference', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -12,28 +12,18 @@ export default (sequelize: ISequelize, DataTypes: IDataTypes) => {
             field: 'user_id',
             allowNull: false
         },
-        firstName: {
+        key: {
             type: DataTypes.STRING,
-            field: 'display_name',
+            field: 'key',
+            allowNull: false
+        },
+        value: {
+            type: DataTypes.STRING,
+            field: 'value',
             allowNull: true
         },
-        cookingTimePreference: {
-            type: DataTypes.STRING,
-            field: 'cooking_time_preference',
-            allowNull: true
-        },
-        householdSize: {
-            type: DataTypes.INTEGER,
-            field: 'household_size',
-            allowNull: true
-        },
-        budgetStyle: {
-            type: DataTypes.STRING,
-            field: 'budget_style',
-            allowNull: true
-        }
     }, {
-        tableName: 'user_profiles',
+        tableName: 'user_preferences',
         timestamps: true,        // ✅ Abilita createdAt / updatedAt automatici
         createdAt: 'created_at', // ✅ Mappa il nome corretto della colonna
         updatedAt: 'updated_at', // ✅ Mappa il nome corretto della colonna

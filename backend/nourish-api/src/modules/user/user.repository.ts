@@ -1,7 +1,17 @@
+import {Op} from 'sequelize';
 import sequelizeBootstrap from '../../database/sequelize.bootstrap';
-import {ICreateUserDto, IUpdateUserDto, IUserDto} from './user.dto';
+import {
+    ICreateUserDto, ICreateUserPreferenceDto,
+    ICreateUserProfileDto,
+    IUpdateUserDto, IUpdateUserPreferenceDto,
+    IUpdateUserProfileDto,
+    IUserDto, IUserPreferenceDto,
+    IUserProfileDto
+} from './user.dto';
 
 const User = sequelizeBootstrap.User;
+const UserProfile = sequelizeBootstrap.userProfile;
+const UserPreference = sequelizeBootstrap.userPreference;
 
 const getAll = async (): Promise<IUserDto[]> => {
     return await User.findAll();
@@ -30,11 +40,76 @@ const remove = async (id: string): Promise<boolean> => {
     return deletedCount > 0;
 };
 
+const getUserProfile = async (userId: number): Promise<IUserProfileDto | null> => {
+    return await UserProfile.findOne({where: {userId}});
+};
+
+const getUserProfiles = async (userIds: number[]): Promise<IUserProfileDto[]> => {
+    return await UserProfile.findAll({where: {userId: {[Op.in]: userIds}}});
+};
+
+const createUserProfile = async (userId: number, data: Partial<ICreateUserProfileDto>): Promise<IUserProfileDto> => {
+    return await UserProfile.create({userId, ...data});
+}
+
+const updateUserProfile = async (
+    userId: number,
+    data: Partial<IUpdateUserProfileDto>
+): Promise<IUserProfileDto | null> => {
+    const [updatedCount] = await UserProfile.update(data, {where: {userId}});
+    if (updatedCount === 0) return null;
+    return await UserProfile.findOne({where: {userId}});
+};
+
+const deleteUserProfile = async (userId: number): Promise<boolean> => {
+    const deletedCount = await UserProfile.destroy({where: {userId}});
+    return deletedCount > 0;
+};
+
+const getUserPreference = async (userId: number): Promise<IUserPreferenceDto | null> => {
+    return await UserPreference.findOne({where: {userId}});
+};
+
+const getUserPreferences = async (userIds: number[]): Promise<IUserPreferenceDto[]> => {
+    return await UserPreference.findAll({where: {userId: {[Op.in]: userIds}}});
+}
+
+const createUserPreference = async (
+    userId: number,
+    data: Partial<ICreateUserPreferenceDto>
+): Promise<IUserPreferenceDto> => {
+    return await UserPreference.create({userId, ...data});
+}
+
+const updateUserPreference = async (
+    userId: number,
+    data: Partial<IUpdateUserPreferenceDto>
+): Promise<IUserPreferenceDto | null> => {
+    const [updatedCount] = await UserPreference.update(data, {where: {userId}});
+    if (updatedCount === 0) return null;
+    return await UserPreference.findOne({where: {userId}});
+}
+
+const deleteUserPreference = async (userId: number): Promise<boolean> => {
+    const deletedCount = await UserPreference.destroy({where: {userId}});
+    return deletedCount > 0;
+}
+
 export {
     getAll,
     getById,
     findByEmail,
     create,
     update,
-    remove
+    remove,
+    getUserProfile,
+    getUserProfiles,
+    createUserProfile,
+    updateUserProfile,
+    deleteUserProfile,
+    getUserPreference,
+    getUserPreferences,
+    createUserPreference,
+    updateUserPreference,
+    deleteUserPreference
 }
