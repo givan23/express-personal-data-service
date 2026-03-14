@@ -1,11 +1,11 @@
 import {useQuery} from '@tanstack/react-query';
 import {getUsers} from "../../../services/user.api";
 
-const useUsers = () => {
+const useUsersQuery = () => {
     return useQuery({
         queryKey: ['users'],
         queryFn: getUsers,
     });
 }
 
-export {useUsers};
+export {useUsersQuery};

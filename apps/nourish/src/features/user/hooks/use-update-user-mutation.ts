@@ -1,16 +1,17 @@
 import {useMutation} from '@tanstack/react-query';
-import {createUser, IUser} from "../../../services/user.api";
+import {updateUser} from "../../../services/user.api";
+import type {IUser} from "../../../services/user.api";
 
-const useUsersQuery = (user: IUser) => {
+const useUpdateUserMutation = (user: IUser) => {
     return useMutation({
-        mutationFn: () => createUser(user),
+        mutationFn: () => updateUser(user),
         onSuccess: (data) => {
-            console.log('User created successfully:', data);
+            console.log('User updated successfully:', data);
         },
         onError: (error) => {
-            console.error('Error creating user:', error);
+            console.error('Error updating user:', error);
         },
     });
 }
 
-export {useUsersQuery};
+export {useUpdateUserMutation};

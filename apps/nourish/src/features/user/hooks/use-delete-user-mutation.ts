@@ -1,16 +1,16 @@
 import {useMutation} from '@tanstack/react-query';
-import {updateUser, IUser} from "../../../services/user.api";
+import {deleteUser} from "../../../services/user.api";
 
-const useUpdateUserMutation = (user: IUser) => {
+const useDeleteUserMutation = (id: number) => {
     return useMutation({
-        mutationFn: () => updateUser(user),
+        mutationFn: () => deleteUser(id),
         onSuccess: (data) => {
-            console.log('User created successfully:', data);
+            console.log('User deleted successfully:', data);
         },
         onError: (error) => {
-            console.error('Error creating user:', error);
+            console.error('Error deleting user:', error);
         },
     });
 }
 
-export {useUpdateUserMutation};
+export {useDeleteUserMutation};
