@@ -12,14 +12,15 @@ export default (sequelize: ISequelize, DataTypes: IDataTypes) => {
             field: 'user_id',
             allowNull: false
         },
-        key: {
-            type: DataTypes.STRING,
-            field: 'key',
-            allowNull: false
+        allergies: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            field: 'allergies',
+            allowNull: true,
+            defaultValue: []
         },
-        value: {
+        dietType: {
             type: DataTypes.STRING,
-            field: 'value',
+            field: 'diet_type',
             allowNull: true
         },
     }, {

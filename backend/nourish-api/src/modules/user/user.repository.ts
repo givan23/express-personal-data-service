@@ -48,8 +48,11 @@ const getUserProfileById = async (userId: number): Promise<IUserProfileDto | nul
     return await UserProfile.findOne({where: {userId}});
 };
 
-const createUserProfile = async (userId: number, data: Partial<ICreateUserProfileDto>): Promise<IUserProfileDto> => {
-    return await UserProfile.create({userId, ...data});
+const createUserProfile = async (
+    userId: number,
+    data: Omit<Partial<ICreateUserProfileDto>, 'userId'>
+): Promise<IUserProfileDto> => {
+    return await UserProfile.create({...data, userId});
 }
 
 const updateUserProfile = async (
@@ -76,9 +79,9 @@ const getUserPreferenceById = async (userId: number): Promise<IUserPreferenceDto
 
 const createUserPreference = async (
     userId: number,
-    data: Partial<ICreateUserPreferenceDto>
+    data: Omit<Partial<ICreateUserPreferenceDto>, 'userId'>
 ): Promise<IUserPreferenceDto> => {
-    return await UserPreference.create({userId, ...data});
+    return await UserPreference.create({...data, userId});
 }
 
 const updateUserPreference = async (

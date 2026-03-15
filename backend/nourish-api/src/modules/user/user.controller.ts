@@ -4,6 +4,7 @@ import {
     ICreateUserDto,
     ICreateUserPreferenceDto,
     ICreateUserProfileDto,
+    IPublicUserDto,
     IUpdateUserDto,
     IUpdateUserPreferenceDto,
     IUpdateUserProfileDto,
@@ -11,6 +12,13 @@ import {
     IUserPreferenceDto,
     IUserProfileDto
 } from './user.dto';
+
+// Questa funzione converte un `IUserDto` in un `IPublicUserDto` rimuovendo il campo sensibile della password.
+const toPublicUserDto = (user: IUserDto): IPublicUserDto => {
+    const plainUser = typeof (user as any)?.toJSON === 'function' ? (user as any).toJSON() : user;
+    const {passwordHash, ...safeUser} = plainUser;
+    return safeUser;
+};
 
 const parseUserIdsQuery = (userIdsQuery: string | string[] | undefined): number[] => {
     const raw = Array.isArray(userIdsQuery) ? userIdsQuery.join(',') : userIdsQuery;
@@ -35,19 +43,31 @@ const parseUserIdsQuery = (userIdsQuery: string | string[] | undefined): number[
     return userIds;
 };
 
-const getUsers = async (req: Request, res: Response<IUserDto[]>, next: NextFunction) => {
+const assertUserIdNotInBody = (body: unknown): void => {
+    const hasUserId = typeof body === 'object'
+        && body !== null
+        && Object.prototype.hasOwnProperty.call(body, 'userId');
+
+    if (hasUserId) {
+        const error = new Error('userId must not be provided in request body');
+        (error as any).status = 400;
+        throw error;
+    }
+};
+
+const getUsers = async (req: Request, res: Response<IPublicUserDto[]>, next: NextFunction) => {
     try {
         const users = await userService.getUsers();
-        res.json(users);
+        res.json(users.map(toPublicUserDto));
     } catch (err: any) {
         next(err);
     }
 };
 
-const getUserById = async (req: Request<{ id: string }>, res: Response<IUserDto>, next: NextFunction) => {
+const getUserById = async (req: Request<{ id: string }>, res: Response<IPublicUserDto>, next: NextFunction) => {
     try {
         const user = await userService.getUserById(req.params.id);
-        res.json(user);
+        res.json(toPublicUserDto(user));
     } catch (err: any) {
         next(err);
     }
@@ -55,12 +75,12 @@ const getUserById = async (req: Request<{ id: string }>, res: Response<IUserDto>
 
 const createUser = async (
     req: Request<{}, {}, ICreateUserDto>,
-    res: Response<IUserDto>,
+    res: Response<IPublicUserDto>,
     next: NextFunction
 ) => {
     try {
         const user = await userService.createUser(req.body);
-        res.json(user);
+        res.json(toPublicUserDto(user));
     } catch (err: any) {
         next(err);
     }
@@ -68,12 +88,12 @@ const createUser = async (
 
 const updateUser = async (
     req: Request<{ id: string }, {}, IUpdateUserDto>,
-    res: Response<IUserDto>,
+    res: Response<IPublicUserDto>,
     next: NextFunction
 ) => {
     try {
         const user = await userService.updateUser(req.params.id, req.body);
-        res.json(user);
+        res.json(toPublicUserDto(user));
     } catch (err: any) {
         next(err);
     }
@@ -120,11 +140,12 @@ const getUserProfileByIdController = async (
 };
 
 const createUserProfileController = async (
-    req: Request<{ userId: string }, {}, Partial<ICreateUserProfileDto>>,
+    req: Request<{ userId: string }, {}, Omit<Partial<ICreateUserProfileDto>, 'userId'>>,
     res: Response<IUserProfileDto>,
     next: NextFunction
 ) => {
     try {
+        assertUserIdNotInBody(req.body);
         const profile = await userService.createUserProfileService(Number(req.params.userId), req.body);
         res.json(profile);
     } catch (err: any) {
@@ -186,11 +207,12 @@ const getUserPreferenceByIdController = async (
 };
 
 const createUserPreferenceController = async (
-    req: Request<{ userId: string }, {}, Partial<ICreateUserPreferenceDto>>,
+    req: Request<{ userId: string }, {}, Omit<Partial<ICreateUserPreferenceDto>, 'userId'>>,
     res: Response<IUserPreferenceDto>,
     next: NextFunction
 ) => {
     try {
+        assertUserIdNotInBody(req.body);
         const preference = await userService.createUserPreferenceService(Number(req.params.userId), req.body);
         res.json(preference);
     } catch (err: any) {

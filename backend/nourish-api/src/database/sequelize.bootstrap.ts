@@ -20,7 +20,7 @@ sequelizeBootstrap.sequelize = sequelize;
 // Init models
 sequelizeBootstrap.User = User(sequelize, Sequelize);
 sequelizeBootstrap.userPreference = userPreference(sequelize, Sequelize);
-sequelizeBootstrap.userProfile = userprofile(sequelize, Sequelize);
+sequelizeBootstrap.userProfile = userProfile(sequelize, Sequelize);
 
 
 // Associations

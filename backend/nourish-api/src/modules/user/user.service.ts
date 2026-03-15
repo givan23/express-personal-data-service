@@ -77,7 +77,10 @@ const getUserProfileByIdService = async (userId: number): Promise<IUserProfileDt
     return userProfile;
 }
 
-const createUserProfileService = async (userId: number, data: Partial<ICreateUserProfileDto>): Promise<IUserProfileDto> => {
+const createUserProfileService = async (
+    userId: number,
+    data: Omit<Partial<ICreateUserProfileDto>, 'userId'>
+): Promise<IUserProfileDto> => {
     return await userRepository.createUserProfile(userId, data);
 }
 
@@ -120,7 +123,7 @@ const getUserPreferenceByIdService = async (userId: number): Promise<IUserPrefer
 
 const createUserPreferenceService = async (
     userId: number,
-    data: Partial<ICreateUserPreferenceDto>
+    data: Omit<Partial<ICreateUserPreferenceDto>, 'userId'>
 ): Promise<IUserPreferenceDto> => {
     return await userRepository.createUserPreference(userId, data);
 }

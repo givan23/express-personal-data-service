@@ -6,6 +6,13 @@ interface IUserDto {
     updatedAt?: Date;
 }
 
+interface IPublicUserDto {
+    id: number;
+    email: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
 interface ICreateUserDto {
     email: string;
     passwordHash: string;
@@ -20,19 +27,19 @@ interface IUpdateUserDto {
 interface IUserPreferenceDto {
     id?: number;
     userId: number;
-    key: string;
-    value?: string;
+    allergies?: string[];
+    dietType?: string;
 }
 
 interface ICreateUserPreferenceDto {
     userId: number;
-    key: string;
-    value?: string;
+    allergies?: string[];
+    dietType?: string;
 }
 
 interface IUpdateUserPreferenceDto {
-    key?: string;
-    value?: string;
+    allergies?: string[];
+    dietType?: string;
 }
 
 // user profile
@@ -59,6 +66,7 @@ interface IUpdateUserProfileDto {
 
 export type {
     IUserDto,
+    IPublicUserDto,
     ICreateUserDto,
     IUpdateUserDto,
     IUserPreferenceDto,
