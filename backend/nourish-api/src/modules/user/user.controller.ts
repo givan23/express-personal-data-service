@@ -20,14 +20,11 @@ const toPublicUserDto = (user: IUserDto): IPublicUserDto => {
     return safeUser;
 };
 
-const parseUserIdsQuery = (userIdsQuery: string | string[] | undefined): number[] => {
+const parseUserIdsQuery = (userIdsQuery: string | string[] | undefined): number[] | undefined => {
+    if (!userIdsQuery) return undefined;
+
     const raw = Array.isArray(userIdsQuery) ? userIdsQuery.join(',') : userIdsQuery;
 
-    if (!raw) {
-        const error = new Error('userIds query param is required');
-        (error as any).status = 400;
-        throw error;
-    }
 
     const userIds = raw
         .split(',')

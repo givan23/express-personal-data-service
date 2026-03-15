@@ -63,7 +63,7 @@ const deleteUser = async (id: string): Promise<{ message: string }> => {
     return {message: 'User deleted successfully'};
 };
 
-const getUserProfilesService = async (userIds: number[]): Promise<IUserProfileDto[]> => {
+const getUserProfilesService = async (userIds?: number[]): Promise<IUserProfileDto[]> => {
     return await userRepository.getUserProfiles(userIds);
 }
 
@@ -107,7 +107,7 @@ const deleteUserProfileService = async (userId: number): Promise<{ message: stri
     return {message: 'User profile deleted successfully'};
 }
 
-const getUserPreferencesService = async (userIds: number[]): Promise<IUserPreferenceDto[]> => {
+const getUserPreferencesService = async (userIds?: number[]): Promise<IUserPreferenceDto[]> => {
     return await userRepository.getUserPreferences(userIds);
 }
 

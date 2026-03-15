@@ -40,7 +40,10 @@ const remove = async (id: string): Promise<boolean> => {
     return deletedCount > 0;
 };
 
-const getUserProfiles = async (userIds: number[]): Promise<IUserProfileDto[]> => {
+const getUserProfiles = async (userIds?: number[]): Promise<IUserProfileDto[]> => {
+    if (!userIds || userIds.length === 0) {
+        return await UserProfile.findAll();
+    }
     return await UserProfile.findAll({where: {userId: {[Op.in]: userIds}}});
 };
 
@@ -69,7 +72,10 @@ const deleteUserProfile = async (userId: number): Promise<boolean> => {
     return deletedCount > 0;
 };
 
-const getUserPreferences = async (userIds: number[]): Promise<IUserPreferenceDto[]> => {
+const getUserPreferences = async (userIds?: number[]): Promise<IUserPreferenceDto[]> => {
+    if (!userIds || userIds.length === 0) {
+        return await UserPreference.findAll();
+    }
     return await UserPreference.findAll({where: {userId: {[Op.in]: userIds}}});
 }
 
